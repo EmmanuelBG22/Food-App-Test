@@ -1,0 +1,85 @@
+<%- include('partials/header'); -%>
+
+<% if(user) { %>
+    <div id="userId"> <%=user._id%> </div>
+    <% } else { %> 
+    <li><a href="/login">Log In</a></li>
+<% } %>
+
+<form action="">
+    <h2>Order for Food</h2>
+    <label for="order">Make-Order</label>
+    <input type="text" name="description" required>
+    <div class="error description"></div>
+    <button>Order</button>
+</form>
+
+<form id="get">
+    <button>Get Orders</button>
+    <div id="order"></div>
+</form>
+
+<script>
+    const form = document.querySelector('form')
+    const descriptionError = document.querySelector('.description.error')
+    const id = document.getElementById("userId").textContent 
+
+    
+    window.addEventListener('load', (e)=>{
+        console.log(id)
+    })
+
+
+    form.addEventListener('submit', async (e)=>{
+        e.preventDefault();
+
+        //reset errors
+        // descriptionError.textContent = ''
+        //get values from html to use
+
+        const description = form.description.value
+        const id = document.getElementById("userId").textContent.trim()
+        
+        try{
+            const res = await fetch('/make-order', {
+                method: 'POST',
+                body: JSON.stringify({ description,  id}),
+                headers: { 'Content-Type': 'application/json'}
+            });
+            const data = await res.json()
+                console.log(data)
+            if(data.errors){
+                descriptionError.textContent = data.errors
+            }
+
+            if(data.order){
+                // location.assign('/make-order')
+            }
+
+        }catch(e){
+
+        }  
+          })
+    
+
+    const orderForm = document.getElementById('get')
+
+    orderForm.addEventListener('submit', async (e)=>{
+        e.preventDefault()
+
+        const order = document.getElementById('orders')
+        try{
+            const res = fetch('/get-orders', {
+                method: 'GET',
+                headers: {'Content-Type': 'application/json'}
+            })
+
+            const data = await res.json()
+            console.log(data)
+        }catch(e){
+            console.log(e)
+        }
+    })
+</script>
+
+<%- include('partials/footer'); -%>
