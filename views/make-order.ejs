@@ -67,18 +67,30 @@
     orderForm.addEventListener('submit', async (e)=>{
         e.preventDefault()
 
-        const order = document.getElementById('orders')
-        try{
-            const res = fetch('/get-orders', {
-                method: 'GET',
-                headers: {'Content-Type': 'application/json'}
-            })
+        let container = []
 
-            const data = await res.json()
-            console.log(data)
-        }catch(e){
-            console.log(e)
-        }
+        const order = document.getElementById('order')
+        console.log(id)
+            const res = await fetch('/get-orders')
+            .then(res => res.json())
+            .then(data=> 
+            {
+                data.forEach(menu=>{
+                    container.push(menu.description)
+                })
+                // console.log(data[0].description)
+                // order.innerHTML = `<h2>${data[0].description}</h2>`
+            }
+            )
+            // .then(order=>{
+            //     console.log(order.description)
+            // })
+            console.log(container)
+            let contain = [...container]
+            order.innerHTML = `<p>${contain}</p>`
+
+            
+
     })
 </script>
 

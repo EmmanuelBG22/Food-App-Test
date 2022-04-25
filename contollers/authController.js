@@ -104,12 +104,21 @@ module.exports.make_order_post = async (req, res) => {
     }
 }
 
+
 module.exports.get_orders = async (req, res) => {
-    const match = {}
-    const order = await Order.find({})
-    res.send(req.sorder)
-
-
+    const id = req.user._id
+    console.log(id)
+    const order = await Order.find({owner: id})
+    try{
+        let meal = []
+        order.forEach(ord =>{
+            console.log(ord.description, ord.completed)
+        })
+        console.log(order)
+        res.status(200).json(order)
+    }catch(e){
+        res.status(400).send(e)
+    }
 }
 
 

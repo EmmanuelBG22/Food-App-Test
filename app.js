@@ -24,6 +24,11 @@ app.get('*', checkUser)
 app.get('/', (req, res) => res.render('home'));
 app.get('/smoothies', requireAuth, (req, res) => res.render('smoothies'));
 app.get('/make-order', requireAuth, checkUser, (req, res)=> res.render('make-order'))
+// app.get('/get-orders', requireAuth, (req, res)=>{
+//   res.render('get-orders', {
+//     boys: 'imbarinbe'
+//   })
+// })
 
 
 
