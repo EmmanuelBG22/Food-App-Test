@@ -78,20 +78,26 @@
                 data.forEach(menu=>{
                     container.push(menu.description)
                 })
-                // console.log(data[0].description)
-                // order.innerHTML = `<h2>${data[0].description}</h2>`
             }
             )
-            // .then(order=>{
-            //     console.log(order.description)
-            // })
-            console.log(container)
-            let contain = [...container]
-            order.innerHTML = `<p>${contain}</p>`
 
+            container.forEach((meal)=> {
+                console.log(meal)
+                const meals = document.createElement('li')
+                const btn = document.createElement('button')
+                const btnText = document.createTextNode('edit')
+                const textnode = document.createTextNode(meal)
+                
+                meals.appendChild(textnode)
+
+                btn.appendChild(btnText)
+
+                meals.appendChild(btn)
+                order.appendChild(meals)
+            })
+            })
             
-
-    })
+            
 </script>
 
 <%- include('partials/footer'); -%>

@@ -2,6 +2,7 @@ const User = require('../model/User')
 const Order = require('../model/Order')
 const jwt = require('jsonwebtoken')
 const { checkUser } = require('../middleware/auth')
+const request = require('request')
 
 
 
@@ -114,7 +115,6 @@ module.exports.get_orders = async (req, res) => {
         order.forEach(ord =>{
             console.log(ord.description, ord.completed)
         })
-        console.log(order)
         res.status(200).json(order)
     }catch(e){
         res.status(400).send(e)
