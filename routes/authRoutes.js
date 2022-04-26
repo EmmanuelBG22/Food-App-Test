@@ -19,4 +19,6 @@ router.get('/make-order', authController.make_order_get)
 
 router.get('/get-orders', authController.get_orders)
 
+router.patch('/edit-order', authController.edit_order)
+
 module.exports = router

@@ -17,7 +17,7 @@ app.set('view engine', 'ejs');
 
 // database connection
 const dbURI = 'mongodb://127.0.0.1:27017/food-manager-api';
-mongoose.connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true})
+mongoose.connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true, useFindAndModify: false})
 
 
 // routes
@@ -25,35 +25,12 @@ app.get('*', checkUser)
 app.get('/', (req, res) => res.render('home'));
 app.get('/smoothies', requireAuth, (req, res) => res.render('smoothies'));
 app.get('/make-order', requireAuth, checkUser, checkOrder, (req, res)=> res.render('make-order'))
-// app.get('/get-orders', requireAuth, (req, res)=>{
-//   res.render('get-orders')
-// })
-
+app.get('/edit-order', requireAuth, (req, res)=>{res.render('edit-order')})
 
 
 //registering the routers in app
 app.use(authRoutes)
 
-
-// //cookies
-// app.get('/set-cookies', (req, res)=>{
-
-//   // res.setHeader('Set-Cookie', 'newUser=true')
-
-//   res.cookie('newUser', false, { 
-//     maxAge: 1000 * 60 * 60 * 24, httpOnly: true
-//   })
-//   res.send('you got the cookies!')
-
-// })
-
-// app.get('/read-cookies', (req, res)=>{
-
-//   const cookies = req.cookies;
-//   console.log(cookies.newUser)
-
-//   res.json(cookies)
-// })
 
 app.listen(3003, ()=>{
   console.log('server is tunning on port 3003...')

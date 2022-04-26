@@ -125,3 +125,17 @@ module.exports.get_orders = async (req, res) => {
         res.status(400).send(e)
     }
 }
+
+module.exports.edit_order = async (req, res)=>{
+    let id = req.body.id
+    let newDescription = req.body.description
+    try{
+        const filter = {_id: id}
+        const update = {description: newDescription}
+        const order = await Order.findOneAndUpdate(filter, update)
+        console.log(order)
+    }catch(e){
+        console.log(e)
+    }
+
+}

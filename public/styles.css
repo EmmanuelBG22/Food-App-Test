@@ -22,6 +22,12 @@ ul{
   width: 500px;
 }
 
+#checkOrders {
+  width: 500px;
+  margin: 40px auto;
+  padding: 0;
+}
+
 .enlarge{
   width: 100%;
   margin: 20px;

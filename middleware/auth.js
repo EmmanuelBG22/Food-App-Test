@@ -64,7 +64,7 @@ const checkOrder = (req, res, next) => {
             // console.log(user)
             let contain = []
             req.order = order.forEach(ord => contain.push(ord.description + ':' + ord._id))
-            console.log(contain)
+            // console.log(contain)
             res.locals.order = contain
             next()
         })

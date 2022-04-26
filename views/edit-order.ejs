@@ -1,0 +1,92 @@
+<%- include('partials/header'); -%>
+
+
+<div id="userId" style="color: white;"> <%=user._id%> </div>
+
+<fieldset id="checkOrders">
+<legend>
+    <h3>Edit Order by Selecting the Id</h3>
+</legend>
+<form id="get">
+    <button>Get Orders</button>
+    <div id="order"></div>
+</form>
+</fieldset>
+
+
+<form id="edit-order" action="">
+    <h2>Edit Order</h2>
+    <label for="orderId">insert order id here:</label>
+    <input type="text" name="orderId" required>
+    <div class="error orderId"></div>
+    <label for="order">description</label>
+    <input type="text" name="description" required>
+    <div class="error description"></div>
+    <button>Update</button>
+</form>
+
+
+
+<script>
+    const id = document.querySelector('#userId').textContent
+
+    const orderForm = document.getElementById('get')
+
+    orderForm.addEventListener('submit', async (e)=>{
+        e.preventDefault()
+
+
+        let container = []
+
+        const order = document.getElementById('order')
+        order.textContent = ''
+        console.log(id)
+            const res = await fetch('/get-orders')
+            .then(res => res.json())
+            .then(data=> 
+            {
+                data.forEach(menu=>{
+                    container.push(menu.description)
+                })
+                console.log(data)
+            }
+            )
+
+            
+
+            container.forEach((meal)=> {
+                const meals = document.createElement('p')
+                const textnode = document.createTextNode(meal)
+                meals.appendChild(textnode)
+
+                meals.classList.add('enlarge')
+
+                order.appendChild(meals)
+            })
+            })
+
+    const editForm = document.querySelector('#edit-order')
+
+    editForm.addEventListener('submit', (e)=>{
+        e.preventDefault()
+    
+        const description = editForm.description.value
+        const id = editForm.orderId.value
+
+        try{
+            const res = fetch('/edit-order', {
+                method: 'PATCH',
+                body: JSON.stringify({description, id}),
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+            }).then((res)=> res.json())
+            .then((data)=> console.log(data))
+        }catch(e){
+            console.log(e)
+        }
+    })
+</script>
+
+
+<%- include('partials/footer'); -%>
