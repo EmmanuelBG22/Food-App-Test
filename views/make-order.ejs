@@ -1,17 +1,14 @@
 <%- include('partials/header'); -%>
 
-<% if(user) { %>
-    <div id="userId"> <%=user._id%> </div>
-    <% } else { %> 
-    <li><a href="/login">Log In</a></li>
-<% } %>
+<div id="userId" style="color: white;"> <%=user._id%> </div>
+<div id="userId" style="color: blue;"> <%=order%> </div>
 
 <form action="">
     <h2>Order for Food</h2>
     <label for="order">Make-Order</label>
     <input type="text" name="description" required>
     <div class="error description"></div>
-    <button>Order</button>
+    <button id="order-btn">Order</button>
 </form>
 
 <form id="get">
@@ -61,15 +58,30 @@
         }  
           })
     
+    let container = []
+    const res = fetch('/get-orders')
+        .then(res => res.json())
+        .then(data=> 
+        {
+                data.forEach(menu=>{
+                    container.push(menu.description)
+                })
+        })
+
+    console.log(container)
+
+    
 
     const orderForm = document.getElementById('get')
 
     orderForm.addEventListener('submit', async (e)=>{
         e.preventDefault()
 
+
         let container = []
 
         const order = document.getElementById('order')
+        order.textContent = ''
         console.log(id)
             const res = await fetch('/get-orders')
             .then(res => res.json())
@@ -78,24 +90,37 @@
                 data.forEach(menu=>{
                     container.push(menu.description)
                 })
+                console.log(data)
             }
             )
 
+            
+
             container.forEach((meal)=> {
                 console.log(meal)
-                const meals = document.createElement('li')
+                const meals = document.createElement('p')
                 const btn = document.createElement('button')
                 const btnText = document.createTextNode('edit')
                 const textnode = document.createTextNode(meal)
-                
                 meals.appendChild(textnode)
-
+                btn.classList.add('edit-btn')
+                meals.classList.add('enlarge')
+                
                 btn.appendChild(btnText)
 
                 meals.appendChild(btn)
                 order.appendChild(meals)
             })
             })
+
+    const editBtn = document.querySelector('edit-btn')
+
+
+    // editBtn.addEventListener('click', (e)=>{
+    //     e.preventDefault()
+
+    //     console.log(e)
+    // })
             
             
 </script>

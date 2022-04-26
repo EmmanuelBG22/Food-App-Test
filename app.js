@@ -2,7 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const authRoutes = require('./routes/authRoutes')
 const cookieParser = require('cookie-parser')
-const {requireAuth, checkUser} = require('./middleware/auth')
+const {requireAuth, checkUser, checkOrder} = require('./middleware/auth')
 const request = require('request')
 
 const app = express();
@@ -24,11 +24,9 @@ mongoose.connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true, useCr
 app.get('*', checkUser)
 app.get('/', (req, res) => res.render('home'));
 app.get('/smoothies', requireAuth, (req, res) => res.render('smoothies'));
-app.get('/make-order', requireAuth, checkUser, (req, res)=> res.render('make-order'))
+app.get('/make-order', requireAuth, checkUser, checkOrder, (req, res)=> res.render('make-order'))
 // app.get('/get-orders', requireAuth, (req, res)=>{
-//   res.render('get-orders', {
-//     boys: 'imbarinbe'
-//   })
+//   res.render('get-orders')
 // })
 
 

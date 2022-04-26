@@ -4,8 +4,6 @@ const jwt = require('jsonwebtoken')
 const { checkUser } = require('../middleware/auth')
 const request = require('request')
 
-
-
 //handle errors
 
 const handleErrors = (e) => {
@@ -34,6 +32,9 @@ const handleErrors = (e) => {
     })
     return errors
 }
+
+
+
 //create token
 
 const maxAge = 3 * 24 * 60 * 60 //this ex-pects a time in seconds and not milliseconds
@@ -53,10 +54,10 @@ module.exports.login_get = (req, res) =>{
 }
 
 module.exports.signup_post = async (req, res) =>{
-    const {email, password} = req.body
+    const {email, password, name} = req.body
 
     try{
-       const user = await User.create({email, password});
+       const user = await User.create({email, password, name});
        const token = createToken(user._id)
        res.cookie('jwt', token, {httpOnly: true, maxAge: maxAge * 1000})
        res.status(201).json({user: user._id})
@@ -108,17 +109,19 @@ module.exports.make_order_post = async (req, res) => {
 
 module.exports.get_orders = async (req, res) => {
     const id = req.user._id
-    console.log(id)
     const order = await Order.find({owner: id})
+
     try{
         let meal = []
         order.forEach(ord =>{
-            console.log(ord.description, ord.completed)
+            meal.push(ord.description)
         })
+
         res.status(200).json(order)
+        console.log(meal)
+        req.order = order
+        res.locals.order = order
     }catch(e){
         res.status(400).send(e)
     }
 }
-
-

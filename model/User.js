@@ -1,9 +1,15 @@
 const mongoose = require('mongoose');
 const {isEmail} = require('validator');
 const bcrypt = require('bcryptjs');
-const Order = require('./Order')
+const Order = require('./Order');
+const { string } = require('yargs');
 
 const userSchema = new mongoose.Schema({
+    name:{
+        type: String,
+        required: [true, 'Please enter your name'],
+        lowercase: true
+    },
     email: {
         type: String,
         required: [true, 'Please enter an email'],
@@ -15,6 +21,12 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: [true, 'Please enter a password'],
         minlength: [6, 'Minimum password length is 6 characters']
+    },
+    roles:{
+        type: String,
+        enum: ['User', 'Admin'],
+        default: 'User',
+        required: true
     }
 });
 
