@@ -1,6 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const authRoutes = require('./routes/authRoutes')
+const adminRoutes = require('./routes/adminRoutes')
 const cookieParser = require('cookie-parser')
 const {requireAuth, checkUser, checkOrder} = require('./middleware/auth')
 const request = require('request')
@@ -24,8 +25,9 @@ mongoose.connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true, useCr
 app.get('*', checkUser)
 app.get('/', (req, res) => res.render('home'));
 app.get('/smoothies', requireAuth, (req, res) => res.render('smoothies'));
-app.get('/make-order', requireAuth, checkUser, checkOrder, (req, res)=> res.render('make-order'))
+app.get('/make-order', requireAuth, (req, res)=> res.render('make-order'))
 app.get('/edit-order', requireAuth, (req, res)=>{res.render('edit-order')})
+app.get('/admin', requireAuth, (req, res)=>{res.render('admin')})
 
 
 //registering the routers in app

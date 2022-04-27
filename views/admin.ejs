@@ -1,0 +1,25 @@
+<%- include('partials/header'); -%>
+
+<div id="userId" style="color: white;"> <%=user._id%> </div>
+
+
+<form action="">
+    <h2>Order for Food</h2>
+    <label for="order">Welcome</label>
+    <input type="text" name="description" required>
+    <div class="error description"></div>
+    <button id="order-btn">Order</button>
+</form>
+
+<form id="get">
+    <button>Get Orders</button>
+    <div id="order"></div>
+</form>
+
+<div><button id="edit-menu">Edit Orders</button></div>
+
+<script>
+     
+</script>
+
+<%- include('partials/footer'); -%>

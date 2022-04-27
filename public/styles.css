@@ -28,9 +28,22 @@ ul{
   padding: 0;
 }
 
+#check{
+  position: absolute;
+  left: -60px;
+  bottom: -63px
+}
+
+#get{
+  margin: 20px auto;
+}
+
 .enlarge{
   width: 100%;
   margin: 20px;
+  border-bottom: 2px solid grey;
+  border-top: solid 2px grey;
+  background: linear-gradient(to right, yellowgreen, lime, grey);
 }
 
 

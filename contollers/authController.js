@@ -8,7 +8,7 @@ const request = require('request')
 
 const handleErrors = (e) => {
     console.log(e.message, e.code);
-    let errors = { email: '', password: ''}
+    let errors = { email: '', password: '', roles:''}
 
     //incorrect email
     if(e.message === 'incorrect email'){
@@ -22,6 +22,11 @@ const handleErrors = (e) => {
     //unique error code
     if(e.code===11000){
         errors.email = 'email already registered'
+        return errors
+    }
+
+    if(e.code === 401){
+        errors.roles = 'Admin requires a unique password'
         return errors
     }
 
@@ -54,13 +59,18 @@ module.exports.login_get = (req, res) =>{
 }
 
 module.exports.signup_post = async (req, res) =>{
-    const {email, password, name} = req.body
+    const {email, password, name, roles} = req.body
+    console.log(req.body.roles)
 
     try{
-       const user = await User.create({email, password, name});
+        if(req.body.roles==="Admin" && req.body.password !== 'olayiwola12'){
+            const errMsg = 'Admin Password Needed'
+            return res.status(401).json({message: errMsg})
+        }
+       const user = await User.create({email, password, name, roles});
        const token = createToken(user._id)
        res.cookie('jwt', token, {httpOnly: true, maxAge: maxAge * 1000})
-       res.status(201).json({user: user._id})
+       res.status(201).json({user: user._id, roles: user.roles})
     }catch(e){
         const errors = handleErrors(e)
         res.status(400).json({errors})
@@ -74,7 +84,7 @@ module.exports.login_post = async (req, res) =>{
         const user = await User.login(email, password)
         const token = createToken(user._id)
         res.cookie('jwt', token, {httpOnly: true, maxAge: maxAge * 1000})
-        res.status(200).json({user: user._id})
+        res.status(200).json({user: user._id, roles: user.roles})
     }catch(e){
         const errors = handleErrors(e)
         res.status(400).json({ errors })
@@ -138,4 +148,15 @@ module.exports.edit_order = async (req, res)=>{
         console.log(e)
     }
 
+}
+
+module.exports.delete_order = async (req, res) => {
+    let id = req.body.id
+
+    try{
+        const order = await Order.findOneAndDelete({_id:id})
+        console.log(order)
+    }catch(e){
+        console.log(e)
+    }
 }

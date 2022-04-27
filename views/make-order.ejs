@@ -1,7 +1,7 @@
 <%- include('partials/header'); -%>
 
 <div id="userId" style="color: white;"> <%=user._id%> </div>
-<div id="userId" style="color: blue;"> <%=order%> </div>
+
 
 <form action="">
     <h2>Order for Food</h2>
@@ -15,6 +15,8 @@
     <button>Get Orders</button>
     <div id="order"></div>
 </form>
+
+<div><button id="edit-order">Edit Orders</button></div>
 
 <script>
     const form = document.querySelector('form')
@@ -99,28 +101,28 @@
             container.forEach((meal)=> {
                 console.log(meal)
                 const meals = document.createElement('p')
-                const btn = document.createElement('button')
+                // const btn = document.createElement('button')
                 const btnText = document.createTextNode('edit')
                 const textnode = document.createTextNode(meal)
                 meals.appendChild(textnode)
-                btn.classList.add('edit-btn')
+                // btn.classList.add('edit-btn')
                 meals.classList.add('enlarge')
                 
-                btn.appendChild(btnText)
+                // btn.appendChild(btnText)
 
-                meals.appendChild(btn)
+                // meals.appendChild(btn)
                 order.appendChild(meals)
             })
             })
 
-    const editBtn = document.querySelector('edit-btn')
+    const editBtn = document.querySelector('#edit-order')
 
 
-    // editBtn.addEventListener('click', (e)=>{
-    //     e.preventDefault()
+    editBtn.addEventListener('click', (e)=>{
+        e.preventDefault()
 
-    //     console.log(e)
-    // })
+        location.assign('/edit-order')
+    })
             
             
 </script>

@@ -21,4 +21,6 @@ router.get('/get-orders', authController.get_orders)
 
 router.patch('/edit-order', authController.edit_order)
 
+router.delete('/delete-order', authController.delete_order)
+
 module.exports = router
