@@ -37,7 +37,6 @@ const checkUser = (req, res, next) => {
             }
             // console.log(decodedToken);
             let user = await User.findOne({_id: decodedToken.id});
-            // console.log(user)
             req.user = user
             res.locals.user = user
             next()
@@ -48,7 +47,7 @@ const checkUser = (req, res, next) => {
     }
 }
 
-const checkOrder = (req, res, next) => {
+const authRole = async (req, res, next) =>{
     const token = req.cookies.jwt
 
     if(token) {
@@ -58,21 +57,42 @@ const checkOrder = (req, res, next) => {
                 req.locals.user = null
                 next()
             }
-            // console.log(decodedToken);
-            // let user = await User.findOne({_id: decodedToken.id});
-            let order = await Order.find({owner: decodedToken.id});
-            // console.log(user)
-            let contain = []
-            req.order = order.forEach(ord => contain.push(ord.description + ':' + ord._id))
-            // console.log(contain)
-            res.locals.order = contain
-            next()
+            let user = await User.findOne({_id: decodedToken.id});
+            if(user.roles==='Admin'){
+                res.locals.user = user
+                next()
+            }else{
+                res.redirect('/')
+            }
         })
-    }
 }
+}
+
+// const checkOrder = (req, res, next) => {
+//     const token = req.cookies.jwt
+
+//     if(token) {
+//         jwt.verify(token, "imbarinbeistehboythatputmoneyinbabriga", async (err, decodedToken)=>{
+//             if(err){
+//                 console.log(err.message)
+//                 req.locals.user = null
+//                 next()
+//             }
+//             // console.log(decodedToken);
+//             // let user = await User.findOne({_id: decodedToken.id});
+//             let order = await Order.find({owner: decodedToken.id});
+//             // console.log(user)
+//             let contain = []
+//             req.order = order.forEach(ord => contain.push(ord.description + ':' + ord._id))
+//             // console.log(contain)
+//             res.locals.order = contain
+//             next()
+//         })
+//     }
+// }
 
 module.exports = {
     requireAuth,
     checkUser,
-    checkOrder
+    authRole
 }

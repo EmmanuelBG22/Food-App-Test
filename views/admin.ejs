@@ -1,25 +1,113 @@
 <%- include('partials/header'); -%>
 
+
+
 <div id="userId" style="color: white;"> <%=user._id%> </div>
 
 
 <form action="">
-    <h2>Order for Food</h2>
-    <label for="order">Welcome</label>
+    <h2>Create Menu</h2>
+    <label for="restaurant">Restaurant</label>
+    <input type="text" name="restaurant" required>
+
+    <label for="description">Description</label>
     <input type="text" name="description" required>
-    <div class="error description"></div>
-    <button id="order-btn">Order</button>
+
+    <label for="description">Price</label>
+    <input type="text" name="price" required>
+
+    <button id="order-btn">Add Menu</button>
 </form>
 
 <form id="get">
-    <button>Get Orders</button>
-    <div id="order"></div>
+    <button>Get Menu</button>
+    <div id="menu"></div>
 </form>
 
-<div><button id="edit-menu">Edit Orders</button></div>
+<div><button id="edit-menu">Edit Menu</button></div>
 
 <script>
-     
+    const form = document.querySelector('form')
+
+    form.addEventListener('submit', async (e)=>{
+        e.preventDefault();
+        //reset errors
+
+        //get values from html to use
+
+        const restaurant = form.restaurant.value
+        const description = form.description.value
+        const price = form.price.value
+        const id = document.querySelector('#userId').textContent.trim()
+        
+        try{
+            const res = await fetch('/admin', {
+                method: 'POST',
+                body: JSON.stringify({ restaurant, description, price, id}),
+                headers: { 'Content-Type': 'application/json'}
+            });
+            const data = await res.json()
+            console.log(data)
+            if(data.errors){
+                console.log(data.errors)
+            }
+            if(data.menu){
+                console.log(data.menu)
+            }
+
+        }catch(e){
+
+        }
+          })
+
+    const orderBtn = document.querySelector('#order-btn')
+
+
+    const menuForm = document.getElementById('get')
+
+    menuForm.addEventListener('submit', async (e)=>{
+        e.preventDefault()
+
+
+        let container = []
+
+        const menu = document.getElementById('menu')
+        menu.textContent = ''
+        
+        const res = await fetch('/get-menu')
+        .then(res => res.json())
+        .then(data=> 
+        {
+            data.forEach(menu=>{
+                container.push(menu.description, menu.price)
+            })
+            console.log(data)
+        }
+        )
+
+        
+
+        container.forEach((meal)=> {
+            console.log(meal)
+            const meals = document.createElement('p')
+            const btnText = document.createTextNode('edit')
+            const textnode = document.createTextNode(meal)
+            meals.appendChild(textnode)
+  
+            menu.appendChild(meals)
+            meals.classList.add('enlarge')
+        })
+
+        
+        })
+
+        const editBtn = document.querySelector('#edit-menu')
+
+        editBtn.addEventListener('click', (e)=>{
+            e.preventDefault()
+
+            location.assign('/edit-admin')
+})
 </script>
 
 <%- include('partials/footer'); -%>

@@ -51,9 +51,28 @@ const createToken = (id) => {
     });
 }
 
-module.exports.signup_get = (req, res) =>{
-    res.render('signup');
+module.exports.admin_post = async (req, res) =>{
+        //creating a new order every time input is made on client side
+    console.log(req.body)
+    const menu = new Menu({
+        ...req.body,
+        owner: req.body.id
+    })
+
+    try{
+        await menu.save()
+        res.status(201).json({ menu })
+    }catch(e){
+        res.status(400).send(e)
+    }
 }
+
+
+module.exports.make_order_get = (req, res) => {
+    res.render('make-order')
+}
+
+
 
 module.exports.login_get = (req, res) =>{
     res.render('login');
@@ -118,45 +137,60 @@ module.exports.make_order_post = async (req, res) => {
 }
 
 
-module.exports.get_orders = async (req, res) => {
+module.exports.get_menu = async (req, res) => {
     const id = req.user._id
-    const order = await Order.find({owner: id})
+    const menu = await Menu.find({owner: id})
 
     try{
-        let meal = []
-        order.forEach(ord =>{
-            meal.push(ord.description)
+        let menuItems = []
+        menu.forEach(item =>{
+            menuItems.push(item.description)
         })
 
-        res.status(200).json(order)
-        console.log(meal)
-        req.order = order
-        res.locals.order = order
+        res.status(200).json(menu)
+        console.log(menuItems)
+        req.menu = menu
+        res.locals.menu = menu
     }catch(e){
         res.status(400).send(e)
     }
 }
 
-module.exports.edit_order = async (req, res)=>{
+module.exports.edit_admin = async (req, res)=>{
     let id = req.body.id
+    console.log(req.body)
+    let newRestaurant = req.body.restaurant
     let newDescription = req.body.description
+    let newPrice = req.body.price
+    console.log(req.body)
     try{
-        const filter = {_id: id}
-        const update = {description: newDescription}
-        const order = await Order.findOneAndUpdate(filter, update)
-        console.log(order)
+
+        const menu = await Menu.findOneAndUpdate({ "_id": id }, { "$set": { "restaurant": newRestaurant, "description": newDescription, "price": newPrice}})
+        console.log(menu)
     }catch(e){
         console.log(e)
     }
 
 }
 
-module.exports.delete_order = async (req, res) => {
+module.exports.delete_menu = async (req, res) => {
     let id = req.body.id
 
     try{
-        const order = await Order.findOneAndDelete({_id:id})
-        console.log(order)
+        const menu = await Menu.findOneAndDelete({_id:id})
+        console.log(menu)
+    }catch(e){
+        console.log(e)
+    }
+}
+
+module.exports.delete_admin = async (req, res) => {
+    let id = req.body.id
+    console.log(req.body)
+
+    try{
+        const menu = await Menu.deleteMany({owner: id})
+        console.log(menu)
     }catch(e){
         console.log(e)
     }

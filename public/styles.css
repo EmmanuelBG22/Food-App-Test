@@ -17,6 +17,10 @@ ul{
   list-style-type: none;
 }
 
+#delete-menu{
+  margin: 40px auto;
+}
+
 
 #order{
   width: 500px;
@@ -26,6 +30,10 @@ ul{
   width: 500px;
   margin: 40px auto;
   padding: 0;
+}
+
+#edit-menu{
+  margin: auto;
 }
 
 #check{
@@ -38,14 +46,17 @@ ul{
   margin: 20px auto;
 }
 
-.enlarge{
+/* .enlarge{
   width: 100%;
   margin: 20px;
   border-bottom: 2px solid grey;
   border-top: solid 2px grey;
   background: linear-gradient(to right, yellowgreen, lime, grey);
-}
+} */
 
+#order p{
+  border: 2px solid;
+}
 
 a{
   text-decoration: none;
