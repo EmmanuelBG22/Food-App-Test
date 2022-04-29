@@ -1,0 +1,40 @@
+<%- include('partials/header'); -%>
+
+<div id="userId" style="color: white;"> <%=user._id%> </div>
+
+<h3>See All Order made: <button id="get-orders">Click Here</button></h3>
+
+<div id="order-list"></div>
+
+<script>
+
+    const getOrders = document.querySelector('#get-orders')
+
+    getOrders.addEventListener('click', async (e)=>{
+        e.preventDefault()
+
+        let container = []
+        let menuItems = []
+
+        const res = await fetch('/get-all-orders')
+        .then(res => res.json())
+        .then(data=> {container.push(data.order)})
+        container[0].forEach(ord => menuItems.push(ord.description, ord.completed, ord.owner))
+        console.log(menuItems)
+        const orderList = document.getElementById('order-list')
+
+        menuItems.forEach( item =>{
+
+        const items = document.createElement('p')
+        const textnode = document.createTextNode(item)
+        items.appendChild(textnode)
+
+        orderList.appendChild(items)
+
+  
+    })
+    })
+            
+</script>
+
+<%- include('partials/footer'); -%>

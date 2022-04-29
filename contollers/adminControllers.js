@@ -195,3 +195,12 @@ module.exports.delete_admin = async (req, res) => {
         console.log(e)
     }
 }
+
+module.exports.orders_get = async (req, res) => {
+    try{
+        const order = await Order.find({})
+        res.status(201).json({order})
+    }catch(e){
+        res.status(400).send(e)
+    }
+}

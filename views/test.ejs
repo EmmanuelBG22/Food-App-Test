@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h3>See All Order made: <button id="get-orders">Click Here</button></h3>
+</body>
+<script>
+        const getOrders = document.querySelector('#get-orders')
+
+getOrders.addEventListener('click', async (e)=>{
+    e.preventDefault()
+
+    let container = []
+
+    const res = await fetch('/get-orders')
+    .then(res => res.json())
+    .then(data=> console.log(data))
+})
+</script>
+</html>

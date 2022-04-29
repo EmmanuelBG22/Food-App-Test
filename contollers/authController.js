@@ -42,7 +42,7 @@ const handleErrors = (e) => {
 
 //create token
 
-const maxAge = 3 * 24 * 60 * 60 //this ex-pects a time in seconds and not milliseconds
+const maxAge = 12 * 60 * 60 //this ex-pects a time in seconds and not milliseconds
 
 const createToken = (id) => {
     return jwt.sign({id}, 'imbarinbeistehboythatputmoneyinbabriga', {

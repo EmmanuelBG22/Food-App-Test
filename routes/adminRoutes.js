@@ -16,7 +16,7 @@ router.post('/admin', adminController.admin_post)
 
 // router.post('/make-order', authController.make_order_post)
 
-// router.get('/make-order', authController.make_order_get)
+router.get('/get-all-orders', adminController.orders_get)
 
 router.get('/get-menu', adminController.get_menu)
 

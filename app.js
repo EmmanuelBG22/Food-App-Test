@@ -29,6 +29,9 @@ app.get('/make-order', requireAuth, (req, res)=> res.render('make-order'))
 app.get('/edit-order', requireAuth, (req, res)=>{res.render('edit-order')})
 app.get('/admin', requireAuth, checkUser, authRole, (req, res)=>{res.render('admin')})
 app.get('/edit-admin', requireAuth, authRole, (req, res)=>{res.render('edit-admin')})
+app.get('/see-orders', requireAuth, authRole, (req, res)=>{res.render('see-orders')})
+
+app.get('/test', (req, res)=>res.render('test'))
 
 
 //registering the routers in app
