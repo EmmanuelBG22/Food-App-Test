@@ -1,15 +1,25 @@
 <%- include('partials/header'); -%>
 
-<div id="userId" style="color: white;"> <%=user._id%> </div>
+<div id="userName" style="color: white;"> <%=user.name%> </div>
 
 
 <form action="">
     <h2>Order for Food</h2>
-    <label for="order">Make-Order</label>
-    <input type="text" name="description" required>
-    <div class="error description"></div>
+    <label for="restaurant">Restaurant</label>
+    <select name="restaurant" id="restaurant-list">
+        <option value="null">-----</option>
+    </select>
+
+    <label for="food">Food</label>
+    <select name="drink" id="food-list"></select>
+
+    <label for="drink">Drink</label>
+    <select name="drink" id="drink-list"></select>
+
     <button id="order-btn">Order</button>
 </form>
+
+<div id="bro"></div>
 
 <form id="get">
     <button>Get Orders</button>
@@ -19,111 +29,175 @@
 <div><button id="edit-order">Edit Orders</button></div>
 
 <script>
-    const form = document.querySelector('form')
-    const descriptionError = document.querySelector('.description.error')
-    const id = document.getElementById("userId").textContent 
 
-    
     window.addEventListener('load', (e)=>{
-        console.log(id)
+        let container = []
+    const res = fetch('/get-menu')
+        .then(res => res.json())
+        .then(data=> 
+        {
+        
+        data.forEach((item)=>{
+            container.push(item.restaurant)
+        })
+        console.log(container)
+        const restaurantList = document.querySelector('#restaurant-list')
+        let contain = []
+        for(let a=0; a<container.length; a++){
+            if(contain.indexOf(container[a])===-1){
+                contain.push(container[a])
+            }
+        }
+        for(let b=0; b<contain.length;b++){
+            const option = document.createElement('option')
+            option.value = contain[b]
+            option.text = contain[b]
+            restaurantList.appendChild(option)
+        }
+        })
+
     })
 
 
-    form.addEventListener('submit', async (e)=>{
+    const restaurantList = document.getElementById('restaurant-list')
+
+    restaurantList.addEventListener('change', (e)=>{
+        e.preventDefault()
+        const foodList = document.getElementById('food-list');
+        const option = document.createElement('option')
+        foodList.textContent = ``
+        
+
+        let restName = restaurantList.options[restaurantList.selectedIndex].text
+        let foodContainer = []
+        const res = fetch('/get-menu')
+        .then(res => res.json())
+        .then(data=> {
+            data.forEach(item=>{
+                if(item.restaurant===restName){
+                foodContainer.push(item.food)
+                }
+            })
+            const foodList = document.getElementById('food-list')
+            let contain = []
+            for(let m=0; m<foodContainer.length; m++){
+                if(contain.indexOf(foodContainer[m])===-1){
+                contain.push(foodContainer[m])
+            }
+        }
+            for(let n=0; n<contain.length; n++){
+                const option = document.createElement('option')
+                option.value = contain[n]
+                option.text = contain[n]
+                foodList.appendChild(option)
+            }
+        })
+    })
+
+
+
+    restaurantList.addEventListener('change', (e)=>{
+        e.preventDefault()
+        const drinkList = document.getElementById('drink-list');
+        const option = document.createElement('option')
+        drinkList.textContent = ``
+        
+
+        let restName = restaurantList.options[restaurantList.selectedIndex].text
+        let drinkContainer = []
+        const res = fetch('/get-menu')
+        .then(res => res.json())
+        .then(data=> {
+            data.forEach(item=>{
+                if(item.restaurant===restName){
+                drinkContainer.push(item.drink)
+                }
+            })
+            let contain = []
+            for(let m=0; m<drinkContainer.length; m++){
+                if(contain.indexOf(drinkContainer[m])===-1){
+                contain.push(drinkContainer[m])
+            }
+        }
+            const drinkList = document.getElementById('drink-list')
+            for(let n=0; n<contain.length; n++){
+                
+                const option = document.createElement('option')
+                option.value = contain[n]
+                option.text = contain[n]
+                drinkList.appendChild(option)
+            }
+
+        })
+    })
+
+    const orderBtn = document.querySelector('#order-btn')
+
+    orderBtn.addEventListener('click', async (e)=>{
         e.preventDefault();
 
-        //reset errors
-        // descriptionError.textContent = ''
-        //get values from html to use
-
-        const description = form.description.value
-        const id = document.getElementById("userId").textContent.trim()
+        const restaurant = document.getElementById('restaurant-list').value
+        const food = document.getElementById('food-list').value
+        const drink = document.getElementById('drink-list').value
+        const name = document.getElementById("userName").textContent.trim()
         
         try{
             const res = await fetch('/make-order', {
                 method: 'POST',
-                body: JSON.stringify({ description,  id}),
+                body: JSON.stringify({ restaurant, food, drink, name}),
                 headers: { 'Content-Type': 'application/json'}
             });
             const data = await res.json()
-                console.log(data)
-            if(data.errors){
-                descriptionError.textContent = data.errors
-            }
-
-            if(data.order){
-                // location.assign('/make-order')
-            }
-
         }catch(e){
 
         }  
           })
+
     
+          const orderForm = document.getElementById('get')
+
+orderForm.addEventListener('submit', async (e)=>{
+    e.preventDefault()
+
+    const name = document.getElementById("userName").textContent.trim()
+
     let container = []
-    const res = fetch('/get-orders')
+
+    const order = document.getElementById('order')
+    order.textContent = ''
+
+        const res = await fetch('/get-orders')
         .then(res => res.json())
         .then(data=> 
         {
-                data.forEach(menu=>{
-                    container.push(menu.description)
-                })
+            data.forEach(menu=>{
+                container.push(`${menu.restaurant} | ${menu.food} | ${menu.drink}`)
+            })
+            console.log(data)
+        }
+        )
+
+        
+
+        container.forEach((meal)=> {
+            console.log(meal)
+            const meals = document.createElement('p')
+            const btnText = document.createTextNode('edit')
+            const textnode = document.createTextNode(meal)
+            meals.appendChild(textnode)
+            meals.classList.add('enlarge')
+            order.appendChild(meals)
+        })
         })
 
-    console.log(container)
-
-    
-
-    const orderForm = document.getElementById('get')
-
-    orderForm.addEventListener('submit', async (e)=>{
-        e.preventDefault()
+const editBtn = document.querySelector('#edit-order')
 
 
-        let container = []
+editBtn.addEventListener('click', (e)=>{
+    e.preventDefault()
 
-        const order = document.getElementById('order')
-        order.textContent = ''
-        console.log(id)
-            const res = await fetch('/get-orders')
-            .then(res => res.json())
-            .then(data=> 
-            {
-                data.forEach(menu=>{
-                    container.push(menu.description)
-                })
-                console.log(data)
-            }
-            )
-
-            
-
-            container.forEach((meal)=> {
-                console.log(meal)
-                const meals = document.createElement('p')
-                // const btn = document.createElement('button')
-                const btnText = document.createTextNode('edit')
-                const textnode = document.createTextNode(meal)
-                meals.appendChild(textnode)
-                // btn.classList.add('edit-btn')
-                meals.classList.add('enlarge')
-                
-                // btn.appendChild(btnText)
-
-                // meals.appendChild(btn)
-                order.appendChild(meals)
-            })
-            })
-
-    const editBtn = document.querySelector('#edit-order')
-
-
-    editBtn.addEventListener('click', (e)=>{
-        e.preventDefault()
-
-        location.assign('/edit-order')
-    })
-            
+    location.assign('/edit-order')
+})
             
 </script>
 

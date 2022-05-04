@@ -60,7 +60,6 @@ module.exports.login_get = (req, res) =>{
 
 module.exports.signup_post = async (req, res) =>{
     const {email, password, name, roles} = req.body
-    console.log(req.body.roles)
 
     try{
         if(req.body.roles==="Admin" && req.body.password !== 'olayiwola12'){
@@ -106,7 +105,7 @@ module.exports.make_order_post = async (req, res) => {
     //creating a new order every time input is made on client side
     const order = new Order({
         ...req.body,
-        owner: req.body.id
+        owner: req.body.name
     })
 
     try{
@@ -119,13 +118,14 @@ module.exports.make_order_post = async (req, res) => {
 
 
 module.exports.get_orders = async (req, res) => {
-    const id = req.user._id
-    const order = await Order.find({owner: id})
+    const name = req.user.name
+    console.log(req.user.name)
+    const order = await Order.find({owner: name})
 
     try{
         let meal = []
         order.forEach(ord =>{
-            meal.push(ord.description)
+            meal.push(ord.restaurant, ord.food, ord.drink)
         })
 
         res.status(200).json(order)
@@ -137,6 +137,8 @@ module.exports.get_orders = async (req, res) => {
     }
 }
 
+
+
 module.exports.edit_order = async (req, res)=>{
     let id = req.body.id
     let newDescription = req.body.description
@@ -144,7 +146,7 @@ module.exports.edit_order = async (req, res)=>{
         const filter = {_id: id}
         const update = {description: newDescription}
         const order = await Order.findOneAndUpdate(filter, update)
-        console.log(order)
+        res.status(200).json({order})
     }catch(e){
         console.log(e)
     }

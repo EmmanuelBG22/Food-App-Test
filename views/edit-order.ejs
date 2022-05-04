@@ -1,7 +1,7 @@
 <%- include('partials/header'); -%>
 
 
-<div id="userId" style="color: white;"> <%=user._id%> </div>
+<div id="userId" style="color: white;"> <%=user.name%> </div>
 
 <fieldset id="checkOrders">
 <legend>
@@ -47,7 +47,7 @@
             .then(data=> 
             {
                 data.forEach(menu=>{
-                    container.push(menu.description, menu._id, menu.completed)
+                    container.push(`${menu.description} ${menu._id}, ${menu.completed}`)
                 })
                 console.log(data)
             }

@@ -4,7 +4,9 @@ const authRoutes = require('./routes/authRoutes')
 const adminRoutes = require('./routes/adminRoutes')
 const cookieParser = require('cookie-parser')
 const {requireAuth, checkUser, authRole} = require('./middleware/auth')
-const request = require('request')
+const xlsx = require('xlsx')
+const path = require('path');
+const Order = require('./model/Order');
 
 const app = express();
 
@@ -24,14 +26,16 @@ mongoose.connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true, useCr
 // routes
 app.get('*', checkUser)
 app.get('/', (req, res) => res.render('home'));
-app.get('/smoothies', requireAuth, (req, res) => res.render('smoothies'));
 app.get('/make-order', requireAuth, (req, res)=> res.render('make-order'))
 app.get('/edit-order', requireAuth, (req, res)=>{res.render('edit-order')})
-app.get('/admin', requireAuth, checkUser, authRole, (req, res)=>{res.render('admin')})
-app.get('/edit-admin', requireAuth, authRole, (req, res)=>{res.render('edit-admin')})
+app.get('/create-menu', requireAuth, authRole, (req, res)=>{res.render('create-menu')})
+app.get('/edit-menu', requireAuth, authRole, (req, res)=>{res.render('edit-menu')})
 app.get('/see-orders', requireAuth, authRole, (req, res)=>{res.render('see-orders')})
+app.get('/admin-home', requireAuth, authRole, (req, res) => res.render('admin-home'))
 
 app.get('/test', (req, res)=>res.render('test'))
+
+
 
 
 //registering the routers in app

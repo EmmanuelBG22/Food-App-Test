@@ -1,25 +1,29 @@
 const mongoose =require('mongoose')
+const { string } = require('yargs')
 
 
 const orderSchema = new mongoose.Schema({
-    description:{
+    restaurant:{
         type: String,
         trim: true,
         required: true
     },
-    completed:{
-        type: Boolean,
+    food:{
+        type: String,
         default: false
     },
+    drink:{
+        type: String,
+        trim: true
+    },
     owner: {
-        type: mongoose.Schema.Types.ObjectId,
+        type: String,
         ref: 'User',
         trim: true
     }
 }, {
     timestamps: true
 })
-
 
 const Order = mongoose.model('Order', orderSchema)
 

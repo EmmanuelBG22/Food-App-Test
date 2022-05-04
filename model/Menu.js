@@ -6,16 +6,16 @@ const menuSchema = new mongoose.Schema({
         type: String,
         trim: true
     },
-    description:{
+    food:{
         type: String,
         trim: true
     },
-    price:{
+    drink:{
         type: String,
         trim: true
     },
     owner: {
-        type: mongoose.Schema.Types.ObjectId,
+        type: String,
         ref: 'User',
         trim: true
     }

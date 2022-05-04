@@ -3,7 +3,7 @@ const Order = require('../model/Order')
 const Menu = require('../model/Menu')
 const jwt = require('jsonwebtoken')
 const { checkUser } = require('../middleware/auth')
-const request = require('request')
+const xlsx = require('xlsx')
 
 //handle errors
 
@@ -56,8 +56,9 @@ module.exports.admin_post = async (req, res) =>{
     console.log(req.body)
     const menu = new Menu({
         ...req.body,
-        owner: req.body.id
+        owner: req.body.name
     })
+    console.log()
 
     try{
         await menu.save()
@@ -138,23 +139,24 @@ module.exports.make_order_post = async (req, res) => {
 
 
 module.exports.get_menu = async (req, res) => {
-    const id = req.user._id
-    const menu = await Menu.find({owner: id})
+    
+    const menu = await Menu.find({})
 
     try{
         let menuItems = []
         menu.forEach(item =>{
-            menuItems.push(item.description)
+            menuItems.push(item.restaurant)
         })
 
         res.status(200).json(menu)
-        console.log(menuItems)
         req.menu = menu
         res.locals.menu = menu
     }catch(e){
         res.status(400).send(e)
     }
 }
+
+
 
 module.exports.edit_admin = async (req, res)=>{
     let id = req.body.id

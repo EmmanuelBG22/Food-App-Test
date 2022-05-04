@@ -2,7 +2,7 @@
 
 
 
-<div id="userId" style="color: white;"> <%=user._id%> </div>
+<div id="userName" style="color: white;"> <%=user.name%> </div>
 
 
 <form action="">
@@ -10,11 +10,11 @@
     <label for="restaurant">Restaurant</label>
     <input type="text" name="restaurant" required>
 
-    <label for="description">Description</label>
-    <input type="text" name="description" required>
+    <label for="food">Food</label>
+    <input type="text" name="food" required>
 
-    <label for="description">Price</label>
-    <input type="text" name="price" required>
+    <label for="drink">Drink</label>
+    <input type="text" name="drink" required>
 
     <button id="order-btn">Add Menu</button>
 </form>
@@ -36,14 +36,14 @@
         //get values from html to use
 
         const restaurant = form.restaurant.value
-        const description = form.description.value
-        const price = form.price.value
-        const id = document.querySelector('#userId').textContent.trim()
+        const food = form.food.value
+        const drink = form.drink.value
+        const name = document.querySelector('#userName').textContent.trim()
         
         try{
             const res = await fetch('/admin', {
                 method: 'POST',
-                body: JSON.stringify({ restaurant, description, price, id}),
+                body: JSON.stringify({ restaurant, food, drink, name}),
                 headers: { 'Content-Type': 'application/json'}
             });
             const data = await res.json()
@@ -79,7 +79,7 @@
         .then(data=> 
         {
             data.forEach(menu=>{
-                container.push(menu.description, menu.price)
+                container.push(`${menu.restaurant} | ${menu.food} | ${menu.drink}`)
             })
             console.log(data)
         }
@@ -90,7 +90,6 @@
         container.forEach((meal)=> {
             console.log(meal)
             const meals = document.createElement('p')
-            const btnText = document.createTextNode('edit')
             const textnode = document.createTextNode(meal)
             meals.appendChild(textnode)
   
@@ -106,7 +105,7 @@
         editBtn.addEventListener('click', (e)=>{
             e.preventDefault()
 
-            location.assign('/edit-admin')
+            location.assign('/edit-menu')
 })
 </script>
 
