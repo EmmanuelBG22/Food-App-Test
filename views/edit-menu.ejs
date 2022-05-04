@@ -85,7 +85,7 @@
         const price = editForm.price.value
         const id = editForm.orderId.value
         try{
-            const res = fetch('/edit-admin', {
+            const res = fetch('/edit-menu', {
                 method: 'PATCH',
                 body: JSON.stringify({restaurant, description, price, id}),
                 headers: {
@@ -119,7 +119,7 @@
         }
     })
 
-       const deleteAll = document.querySelector('#delete-all')
+    const deleteAll = document.querySelector('#delete-all')
 
     deleteAll.addEventListener('click', (e)=>{
         e.preventDefault()
@@ -132,7 +132,7 @@
      
 
         try{
-            const res = fetch('/delete-admin', {
+            const res = fetch('/delete-menus', {
                 method: 'DELETE',
                 body: JSON.stringify({id}),
                 headers: {

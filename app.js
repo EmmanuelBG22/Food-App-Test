@@ -9,6 +9,7 @@ const path = require('path');
 const Order = require('./model/Order');
 
 const app = express();
+const port = process.env.PORT
 
 // middleware
 app.use(express.static('public'));
@@ -19,7 +20,7 @@ app.use(cookieParser())
 app.set('view engine', 'ejs');
 
 // database connection
-const dbURI = 'mongodb://127.0.0.1:27017/food-manager-api';
+const dbURI = process.env.MONGODB_URL;
 mongoose.connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true, useFindAndModify: false})
 
 
@@ -57,8 +58,8 @@ app.use(authRoutes)
 app.use(adminRoutes)
 
 
-app.listen(3003, ()=>{
-  console.log('server is tunning on port 3003...')
+app.listen(port, ()=>{
+  console.log('server is tunning on port ' + port + '...')
 })
 
 module.exports = app

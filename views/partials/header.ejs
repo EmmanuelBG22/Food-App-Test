@@ -7,7 +7,12 @@
 </head>
 <body>
   <nav>
-    <h1><a href="/">BG FOODS</a></h1>
+    <% if(user.roles==='User'){ %>
+      <h1><a href="/">BG FOODS</a></h1>
+      <% }else { %>
+      <h1><a href="/admin-home">BG FOODS</a></h1>
+        <% } %>
+    
       <ul>
         <% if(user) { %>
         <li>Welcome, <%= user.name %> (<%= user.roles %>) </li>

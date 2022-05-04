@@ -11,14 +11,14 @@
     "express": "^4.17.1",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.9.23",
-    "nodemon": "^2.0.15",
     "request": "^2.88.2",
     "validator": "^13.7.0",
     "xlsx": "^0.18.5"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon app.js"
+    "dev": "env-cmd -f ./config/dev.env nodemon app.js",
+    "start": "nodemon app.js"
   },
   "repository": {
     "type": "git",
@@ -30,5 +30,9 @@
   "bugs": {
     "url": "https://github.com/iamshaunjp/node-express-jwt-auth/issues"
   },
-  "homepage": "https://github.com/iamshaunjp/node-express-jwt-auth#readme"
+  "homepage": "https://github.com/iamshaunjp/node-express-jwt-auth#readme",
+  "devDependencies": {
+    "env-cmd": "^10.1.0",
+    "nodemon": "^2.0.16"
+  }
 }

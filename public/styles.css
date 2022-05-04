@@ -189,5 +189,10 @@ footer{
 table, th, td {
   border: #FEE996 solid;
   border-collapse: collapse;
+  padding: 10px;
+  margin: 0 auto;
 }
 
+table{
+  margin: 40px auto;
+}
