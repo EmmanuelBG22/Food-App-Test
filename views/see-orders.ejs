@@ -2,39 +2,33 @@
 
 <div id="userId" style="color: white;"> <%=user._id%> </div>
 
-<h3>See All Order made: <button id="get-orders">Click Here</button></h3>
+<%if(data.length>0){%>
+    <table>
+        <tbody>
+            <tr>
+                <th>Name</th>
+                <th>User ID</th>
+                <th>Restaurant</th>
+                <th>Drink</th>
+                <th>Food</th>
+            </tr>
+    <%for(var a=0; a< data.length; a++ ){%>
+        
+        <tr>
+            <td><%=data[a].owner%></td>
+            <td><%=data[a]._id%></td>
+            <td><%=data[a].restaurant%></td>
+            <td><%=data[a].drink%></td>
+            <td><%=data[a].food%></td>
+        </tr>
+        <%}%>
+    </tbody>
+    </table>
+<%}%>
 
-<div id="order-list"></div>
+<form action="/export" method="POST">
+    <button type="submit">Export to Excel</button>
+</form>
 
-<script>
-
-    const getOrders = document.querySelector('#get-orders')
-
-    getOrders.addEventListener('click', async (e)=>{
-        e.preventDefault()
-
-        let container = []
-        let menuItems = []
-
-        const res = await fetch('/get-all-orders')
-        .then(res => res.json())
-        .then(data=> {container.push(data.order)})
-        container[0].forEach(ord => menuItems.push(ord.description, ord.completed, ord.owner))
-        console.log(menuItems)
-        const orderList = document.getElementById('order-list')
-
-        menuItems.forEach( item =>{
-
-        const items = document.createElement('p')
-        const textnode = document.createTextNode(item)
-        items.appendChild(textnode)
-
-        orderList.appendChild(items)
-
-  
-    })
-    })
-            
-</script>
 
 <%- include('partials/footer'); -%>

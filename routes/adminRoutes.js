@@ -18,4 +18,7 @@ router.delete('/delete-admin', adminController.delete_admin)
 
 router.delete('/delete-menu', adminController.delete_menu)
 
+router.post('/export', adminController.download_order)
+
+
 module.exports = router

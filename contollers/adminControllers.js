@@ -4,6 +4,7 @@ const Menu = require('../model/Menu')
 const jwt = require('jsonwebtoken')
 const { checkUser } = require('../middleware/auth')
 const xlsx = require('xlsx')
+const path = require('path')
 
 //handle errors
 
@@ -204,5 +205,29 @@ module.exports.orders_get = async (req, res) => {
         res.status(201).json({order})
     }catch(e){
         res.status(400).send(e)
+    }
+}
+
+
+
+module.exports.download_order = async (req, res) => {
+    try{
+        var wb = xlsx.utils.book_new();
+  var data = Order.find({}).select('rice')
+  Order.find((err, data)=>{
+    if(err){
+      console.log(err)
+    }else{
+      var temp = JSON.stringify(data);
+      temp = JSON.parse(temp);
+      var ws = xlsx.utils.json_to_sheet(temp);
+      var down = path.join(__dirname, '../public/export.xlsx')
+      xlsx.utils.book_append_sheet(wb, ws, 'order');
+      xlsx.writeFile(wb, down);
+      res.download(down)
+    }
+  }).select('drink food restaurant owner -_id')
+    }catch(e){
+        console.log(e)
     }
 }

@@ -7,9 +7,27 @@
     <title>Document</title>
 </head>
 <body>
+    <%if(data.length>0){%>
+        <table style="border: solid;">
+            <tbody>
+        <%for(var a=0; a< data.length; a++ ){%>
+            <tr>
+                <td><%=data[a].owner%></td>
+                <td><%=data[a]._id%></td>
+                <td><%=data[a].restaurant%></td>
+                <td><%=data[a].drink%></td>
+                <td><%=data[a].food%></td>
+            </tr>
+            <%}%>
+        </tbody>
+        </table>
+    <%}%>
+
+
+
     <h3>See All Order made: <button id="get-orders">Click Here</button></h3>
 </body>
-<script>
+<!-- <script>
         const getOrders = document.querySelector('#get-orders')
 
 getOrders.addEventListener('click', async (e)=>{
@@ -21,5 +39,5 @@ getOrders.addEventListener('click', async (e)=>{
     .then(res => res.json())
     .then(data=> console.log(data))
 })
-</script>
+</script> -->
 </html>

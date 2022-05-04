@@ -185,3 +185,9 @@ footer{
   margin-top: 120px;
   color: #aaa;
 }
+
+table, th, td {
+  border: #FEE996 solid;
+  border-collapse: collapse;
+}
+

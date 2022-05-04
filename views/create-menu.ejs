@@ -61,13 +61,10 @@
           })
 
     const orderBtn = document.querySelector('#order-btn')
-
-
     const menuForm = document.getElementById('get')
 
     menuForm.addEventListener('submit', async (e)=>{
         e.preventDefault()
-
 
         let container = []
 
@@ -81,11 +78,8 @@
             data.forEach(menu=>{
                 container.push(`${menu.restaurant} | ${menu.food} | ${menu.drink}`)
             })
-            console.log(data)
         }
-        )
-
-        
+        )        
 
         container.forEach((meal)=> {
             console.log(meal)
@@ -96,17 +90,13 @@
             menu.appendChild(meals)
             meals.classList.add('enlarge')
         })
-
-        
         })
-
         const editBtn = document.querySelector('#edit-menu')
-
         editBtn.addEventListener('click', (e)=>{
             e.preventDefault()
 
             location.assign('/edit-menu')
-})
+    })
 </script>
 
 <%- include('partials/footer'); -%>

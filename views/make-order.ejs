@@ -180,9 +180,7 @@ orderForm.addEventListener('submit', async (e)=>{
         
 
         container.forEach((meal)=> {
-            console.log(meal)
             const meals = document.createElement('p')
-            const btnText = document.createTextNode('edit')
             const textnode = document.createTextNode(meal)
             meals.appendChild(textnode)
             meals.classList.add('enlarge')

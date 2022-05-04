@@ -30,12 +30,26 @@ app.get('/make-order', requireAuth, (req, res)=> res.render('make-order'))
 app.get('/edit-order', requireAuth, (req, res)=>{res.render('edit-order')})
 app.get('/create-menu', requireAuth, authRole, (req, res)=>{res.render('create-menu')})
 app.get('/edit-menu', requireAuth, authRole, (req, res)=>{res.render('edit-menu')})
-app.get('/see-orders', requireAuth, authRole, (req, res)=>{res.render('see-orders')})
+// app.get('/see-orders', requireAuth, authRole, (req, res)=>{res.render('see-orders')})
 app.get('/admin-home', requireAuth, authRole, (req, res) => res.render('admin-home'))
+// app.get('/test', (req, res)=>res.render('test'))
+app.get('/export', requireAuth, authRole, (req, res)=>res.download(down))
 
-app.get('/test', (req, res)=>res.render('test'))
 
-
+// data display
+app.get('/see-orders', requireAuth, authRole, (req, res)=>{
+  Order.find((err, data)=>{
+    if(err){
+      console.log(err)
+    }else{
+      if(data !=''){
+        res.render('see-orders', {data});
+      }else{
+        res.render('see-orders', (data=''))
+      }
+    }
+  })
+})
 
 
 //registering the routers in app
