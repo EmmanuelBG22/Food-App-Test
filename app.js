@@ -43,17 +43,18 @@ app.get('/export', requireAuth, authRole, (req, res)=>res.download(down))
 
 // data display
 app.get('/see-orders', requireAuth, authRole, (req, res)=>{
-  Order.find((err, data)=>{
-    if(err){
-      console.log(err)
-    }else{
-      if(data !=''){
-        res.render('see-orders', {data});
-      }else{
-        res.render('see-orders', (data=''))
-      }
-    }
-  })
+  // Order.find((err, data)=>{
+  //   if(err){
+  //     console.log(err)
+  //   }else{
+  //     if(data !=''){
+  //       res.render('see-orders', {data});
+  //     }else{
+  //       res.render('see-orders', (data=''))
+  //     }
+  //   }
+  // })
+  res.render('see-orders')
 })
 
 
