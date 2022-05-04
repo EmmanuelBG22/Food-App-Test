@@ -11,7 +11,7 @@ const requireAuth = (req, res, next) =>{
     if(!token){
         return res.redirect('/login')
     }
-    jwt.verify(token, "imbarinbeistehboythatputmoneyinbabriga", (err, decodedToken)=>{
+    jwt.verify(token, process.env.JWT_SECRET, (err, decodedToken)=>{
         if(err){
             console.log(err.message)
             return res.redirect('/login')
@@ -26,7 +26,7 @@ const checkUser = (req, res, next) => {
     const token = req.cookies.jwt
 
     if(token) {
-        jwt.verify(token, "imbarinbeistehboythatputmoneyinbabriga", async (err, decodedToken)=>{
+        jwt.verify(token, process.env.JWT_SECRET, async (err, decodedToken)=>{
             if(err){
                 console.log(err.message)
                 req.locals.user = null
@@ -47,7 +47,7 @@ const authRole = async (req, res, next) =>{
     const token = req.cookies.jwt
 
     if(token) {
-        jwt.verify(token, "imbarinbeistehboythatputmoneyinbabriga", async (err, decodedToken)=>{
+        jwt.verify(token, process.env.JWT_SECRET, async (err, decodedToken)=>{
             if(err){
                 console.log(err.message)
                 req.locals.user = null
