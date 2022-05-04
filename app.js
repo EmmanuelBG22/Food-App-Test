@@ -8,6 +8,7 @@ const xlsx = require('xlsx')
 const path = require('path');
 const Order = require('./model/Order');
 
+
 const app = express();
 const port = process.env.PORT
 
@@ -18,10 +19,15 @@ app.use(cookieParser())
 
 // view engine
 app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, './views'))
 
 // database connection
 const dbURI = process.env.MONGODB_URL;
-mongoose.connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true, useFindAndModify: false})
+mongoose.connect(dbURI, { 
+  useNewUrlParser: true, 
+  useUnifiedTopology: true, 
+  useCreateIndex: true, 
+  useFindAndModify: false})
 
 
 // routes
@@ -31,9 +37,7 @@ app.get('/make-order', requireAuth, (req, res)=> res.render('make-order'))
 app.get('/edit-order', requireAuth, (req, res)=>{res.render('edit-order')})
 app.get('/create-menu', requireAuth, authRole, (req, res)=>{res.render('create-menu')})
 app.get('/edit-menu', requireAuth, authRole, (req, res)=>{res.render('edit-menu')})
-// app.get('/see-orders', requireAuth, authRole, (req, res)=>{res.render('see-orders')})
 app.get('/admin-home', requireAuth, authRole, (req, res) => res.render('admin-home'))
-// app.get('/test', (req, res)=>res.render('test'))
 app.get('/export', requireAuth, authRole, (req, res)=>res.download(down))
 
 
