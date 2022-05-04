@@ -7,13 +7,18 @@
 </head>
 <body>
   <nav>
-      <h1><a href="/">BG FOODS</a></h1>
+      <h1>BG FOODS</h1>
   
   
     
       <ul>
         <% if(user) { %>
         <li>Welcome, <%= user.name %> (<%= user.roles %>) </li>
+        <% if(user.roles === 'Admin'){ %>
+          <li><a href="/admin-home">Home</a></li>
+          <% } else {%>
+            <li><a href="/home">Home</a></li>
+            <%}%> 
         <li><a href="/logout">Log out</a></li>
         <li><a class="btn" href="/make-order">Order</a></li>
         <% } else { %> 

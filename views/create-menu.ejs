@@ -5,16 +5,16 @@
 <div id="userName" style="color: white;"> <%=user.name%> </div>
 
 
-<form action="">
+<form>
     <h2>Create Menu</h2>
     <label for="restaurant">Restaurant</label>
-    <input type="text" name="restaurant" required>
+    <input type="text" name="restaurant" id="restaurant-list" required>
 
     <label for="food">Food</label>
-    <input type="text" name="food" required>
+    <input type="text" name="food" id="food-list" required>
 
     <label for="drink">Drink</label>
-    <input type="text" name="drink" required>
+    <input type="text" name="drink" id="drink-list" required>
 
     <button id="order-btn">Add Menu</button>
 </form>
@@ -27,21 +27,18 @@
 <div><button id="edit-menu">Edit Menu</button></div>
 
 <script>
-    const form = document.querySelector('form')
+    const orderBtn = document.querySelector('#order-btn')
 
-    form.addEventListener('submit', async (e)=>{
+    orderBtn.addEventListener('click', async (e)=>{
         e.preventDefault();
-        //reset errors
 
-        //get values from html to use
-
-        const restaurant = form.restaurant.value
-        const food = form.food.value
-        const drink = form.drink.value
+        const restaurant = document.getElementById('restaurant-list').value
+        const food = document.getElementById('food-list').value
+        const drink = document.getElementById('drink-list').value
         const name = document.querySelector('#userName').textContent.trim()
         
         try{
-            const res = await fetch('/admin', {
+            const res = await fetch('/menu-post', {
                 method: 'POST',
                 body: JSON.stringify({ restaurant, food, drink, name}),
                 headers: { 'Content-Type': 'application/json'}
@@ -60,7 +57,6 @@
         }
           })
 
-    const orderBtn = document.querySelector('#order-btn')
     const menuForm = document.getElementById('get')
 
     menuForm.addEventListener('submit', async (e)=>{
@@ -82,7 +78,6 @@
         )        
 
         container.forEach((meal)=> {
-            console.log(meal)
             const meals = document.createElement('p')
             const textnode = document.createTextNode(meal)
             meals.appendChild(textnode)
