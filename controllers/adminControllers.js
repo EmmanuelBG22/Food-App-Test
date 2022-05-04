@@ -44,14 +44,13 @@ module.exports.get_menu = async (req, res) => {
 
 module.exports.edit_menu = async (req, res)=>{
     let id = req.body.id
-    console.log(req.body)
     let newRestaurant = req.body.restaurant
-    let newDescription = req.body.description
-    let newPrice = req.body.price
+    let newFood = req.body.food
+    let newDrink = req.body.drink
     console.log(req.body)
     try{
 
-        const menu = await Menu.findOneAndUpdate({ "_id": id }, { "$set": { "restaurant": newRestaurant, "description": newDescription, "price": newPrice}})
+        const menu = await Menu.findOneAndUpdate({ "_id": id }, { "$set": { "restaurant": newRestaurant, "food": newFood, "drink": newDrink}})
         console.log(menu)
     }catch(e){
         console.log(e)

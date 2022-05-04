@@ -22,11 +22,11 @@
     <label for="restaurant">Restaurant</label>
     <input type="text" name="restaurant" >
 
-    <label for="description">Description</label>
-    <input type="text" name="description">
+    <label for="food">Food</label>
+    <input type="text" name="food">
 
-    <label for="description">Price</label>
-    <input type="text" name="price">
+    <label for="drink">Drink</label>
+    <input type="text" name="drink">
 
     <button>Update</button>
     <button id="delete-btn">Delete</button>
@@ -58,7 +58,7 @@
             .then(data=> 
             {
                 data.forEach(menu=>{
-                    container.push(`${menu._id} | ${menu.restaurant} | ${menu.food}, ${menu.drink}`)
+                    container.push(`${menu._id} | ${menu.restaurant} | ${menu.food} | ${menu.drink}`)
                 })
                 // console.log(data)
             }
@@ -81,13 +81,13 @@
         e.preventDefault()
     
         const restaurant = editForm.restaurant.value
-        const description = editForm.description.value
-        const price = editForm.price.value
+        const food = editForm.food.value
+        const drink = editForm.drink.value
         const id = editForm.orderId.value
         try{
             const res = fetch('/edit-menu', {
                 method: 'PATCH',
-                body: JSON.stringify({restaurant, description, price, id}),
+                body: JSON.stringify({restaurant, food, drink, id}),
                 headers: {
                     'Content-Type': 'application/json'
                 },
@@ -124,11 +124,10 @@
     deleteAll.addEventListener('click', (e)=>{
         e.preventDefault()
 
-        const fatId = document.querySelector('#userId').textContent
-        let pen = []
-        pen.push(fatId)
-        console.log(pen)
-        let id = pen[0].trim()
+        const userId = document.querySelector('#userId').textContent
+        let holder = []
+        holder.push(fatId)
+        let id = holder[0].trim()
      
 
         try{
