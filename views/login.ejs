@@ -42,7 +42,11 @@
             }
 
             if(data.user){
-                location.assign('/')
+                if(data.roles==='User')
+                    location.assign('/')
+                if(data.roles === 'Admin'){
+                    location.assign('/admin-home')
+                }
             }
 
         }catch(e){

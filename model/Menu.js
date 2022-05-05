@@ -1,16 +1,14 @@
 const mongoose =require('mongoose')
-const { string } = require('yargs')
 
 
-const orderSchema = new mongoose.Schema({
+const menuSchema = new mongoose.Schema({
     restaurant:{
         type: String,
-        trim: true,
-        required: true
+        trim: true
     },
     food:{
         type: String,
-        default: false
+        trim: true
     },
     drink:{
         type: String,
@@ -25,8 +23,9 @@ const orderSchema = new mongoose.Schema({
     timestamps: true
 })
 
-const Order = mongoose.model('Order', orderSchema)
+
+const Menu = mongoose.model('Menu', menuSchema)
 
 
 
-module.exports = Order
+module.exports = Menu
