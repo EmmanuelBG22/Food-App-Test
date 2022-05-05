@@ -1,6 +1,5 @@
 const Order = require('../model/Order')
 const Menu = require('../model/Menu')
-const jwt = require('jsonwebtoken')
 const xlsx = require('xlsx')
 const path = require('path')
 
@@ -87,6 +86,29 @@ module.exports.orders_get = async (req, res) => {
         res.status(201).json({order})
     }catch(e){
         res.status(400).send(e)
+    }
+}
+
+
+module.exports.see_orders = async (req, res) =>{
+    try{
+        if(req.user.roles==='Admin'){
+        Order.find((err, data)=>{
+            if(err){
+              console.log(err)
+            }else{
+              if(data !=''){
+                res.render('see-orders', {data});
+              }else{
+                res.render('see-orders', (data=''))
+              }
+            }
+          })
+        }else{
+            res.redirect('home')
+        }
+    }catch(e){
+
     }
 }
 

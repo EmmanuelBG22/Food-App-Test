@@ -84,7 +84,7 @@ module.exports.login_post = async (req, res) =>{
         res.status(200).json({user: user._id, roles: user.roles})
     }catch(e){
         const errors = handleErrors(e)
-        res.status(400).json({ errors })
+        res.status(409).json({ errors })
     }
 }
 

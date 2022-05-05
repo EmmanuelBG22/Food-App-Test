@@ -16,8 +16,8 @@
         <li>Welcome, <%= user.name %> (<%= user.roles %>) </li>
         <% if(user.roles === 'Admin'){ %>
           <li><a href="/admin-home">Home</a></li>
-          <% } else {%>
-            <li><a href="/home">Home</a></li>
+          <% } else{%>
+            <li><a href="/">Home</a></li>
             <%}%> 
         <li><a href="/logout">Log out</a></li>
         <li><a class="btn" href="/make-order">Order</a></li>

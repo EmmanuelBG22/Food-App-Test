@@ -70,3 +70,16 @@ module.exports.delete_order = async (req, res) => {
         console.log(e)
     }
 }
+
+
+module.exports.tests = async (req, res) => {
+    try{const data = {
+        drinks: 'fanta',
+        food: 'burger'
+    }
+
+    res.status(201).render('test', {data})}
+    catch(e){
+
+    }
+}

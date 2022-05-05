@@ -18,6 +18,8 @@ router.post('/make-order', authController.make_order_post)
 
 router.get('/make-order', authController.make_order_get)
 
+router.get('/tests', authController.tests)
+
 router.get('/get-orders', authController.get_orders)
 
 router.patch('/edit-order', authController.edit_order)

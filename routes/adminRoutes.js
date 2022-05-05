@@ -1,5 +1,4 @@
 const adminController = require('../controllers/adminControllers')
-
 const { Router } = require('express')
 
 const router = Router()
@@ -16,6 +15,8 @@ router.patch('/edit-menu', adminController.edit_menu)
 router.delete('/delete-menu', adminController.delete_menu)
 
 router.delete('/delete-menus', adminController.delete_menus)
+
+router.get('/see-orders', adminController.see_orders)
 
 router.post('/export', adminController.download_order)
 
